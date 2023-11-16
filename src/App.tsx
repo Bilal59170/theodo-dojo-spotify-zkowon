@@ -26,6 +26,15 @@ const App = () => {
 		queryKey: ['tracks'],
 		queryFn: fetchTracks
 });
+
+const AlbumCover = ({track}) =>  {
+  const src = "https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228";
+  //track.album.images[0].url; 
+  return (
+      <img src={src} style={{ width: 400, height: 400 }} />
+  );
+}
+
   console.log(tracks);
   const nb_morceau_spot = tracks?.length;
 
@@ -37,7 +46,9 @@ const App = () => {
       </header>
       <div className="App-images">
         <p>Le nombre de morceau accessibles: {nb_morceau_spot}</p>
-        <audio src={trackUrls[trackIndex]} autoPlay controls />
+        <p>Premier morceau accessibles: {tracks[0]?.track.name}</p>
+        <AlbumCover track={tracks?.[0]?.track} />
+        <audio src={tracks?.[0]?.track.preview_url} autoPlay controls />
         <button onClick={goToNextTrack}>
           Next track
         </button>
