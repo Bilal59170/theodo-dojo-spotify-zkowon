@@ -1,7 +1,9 @@
 import logo from './assets/logo.svg';
 import './App.css';
 import { useState } from 'react';
-
+import { fetchTracks } from './lib/fetchTracks';
+import { useQuery } from '@tanstack/react-query';
+import { SavedTrack } from 'spotify-types';
 
 const trackUrls = [
   'https://p.scdn.co/mp3-preview/742294f35af9390e799dd96c633788410a332e52',
@@ -20,8 +22,12 @@ const App = () => {
     setTrackIndex(trackIndex + 1);
   }
 
-
-
+  const { data: tracks } = useQuery({
+		queryKey: ['tracks'],
+		queryFn: fetchTracks
+});
+  console.log(tracks);
+  const nb_morceau_spot = tracks?.length;
 
   return (
     <div className="App">
@@ -30,7 +36,7 @@ const App = () => {
         <h1 className="App-title">2eme ytrfc</h1>
       </header>
       <div className="App-images">
-        <p>Il va falloir modifier le code pour faire un vrai blind test !</p>
+        <p>Le nombre de morceau accessibles: {nb_morceau_spot}</p>
         <audio src={trackUrls[trackIndex]} autoPlay controls />
         <button onClick={goToNextTrack}>
           Next track
